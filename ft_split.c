@@ -6,7 +6,7 @@
 /*   By: clumertz <clumertz@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 09:15:45 by clumertz          #+#    #+#             */
-/*   Updated: 2025/08/10 13:10:09 by clumertz         ###   ########.fr       */
+/*   Updated: 2025/08/14 19:47:26 by clumertz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int	ft_size_word(char const *s, char c)
 	return (size);
 }
 
-static char	**ft_free_mem(char **result, int i)
+char	**ft_free_mem(char **result, int i)
 {
 	while (i >= 0)
 	{

@@ -12,7 +12,7 @@ CFLAGS = -Wall -Werror -Wextra -g
 
 # Files ----------------------------------------------------------- #
 
-C_FILES = pipex.c
+C_FILES = pipex.c args.c ft_split.c str_utils.c process.c utils.c
 
 O_DIR = objs
 
