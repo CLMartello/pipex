@@ -6,7 +6,7 @@
 /*   By: clumertz <clumertz@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 13:31:51 by clumertz          #+#    #+#             */
-/*   Updated: 2025/08/15 19:47:21 by clumertz         ###   ########.fr       */
+/*   Updated: 2025/08/16 14:14:41 by clumertz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,9 @@ int	wait_process(t_process *p_1, t_process *p_2, int *fd)
 	close(fd[0]);
 	close(fd[1]);
 	waitpid(p_1->pid, &status1, 0);
+	free_all(p_1);
 	waitpid(p_2->pid, &status2, 0);
+	free_all(p_2);
 	if (WIFEXITED(status2))
 		return (WEXITSTATUS(status2));
 	return (EXIT_FAILURE);

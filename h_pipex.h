@@ -6,7 +6,7 @@
 /*   By: clumertz <clumertz@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 11:15:10 by clumertz          #+#    #+#             */
-/*   Updated: 2025/08/15 20:01:20 by clumertz         ###   ########.fr       */
+/*   Updated: 2025/08/16 14:05:59 by clumertz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ typedef struct s_process
 	int		fd_file;
 	char	*path;
 	char	**cmd;
-//	char	**all_path;
 	char	**envp;
 }		t_process;
 
@@ -52,6 +51,6 @@ int		wait_process(t_process *p_1, t_process *p_2, int *fd);
 
 //Utils functions
 void	error_msg(void);
-void	free_all(t_process *p_1, t_process *p_2);
+void	free_all(t_process *p_1);
 
 #endif

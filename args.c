@@ -6,7 +6,7 @@
 /*   By: clumertz <clumertz@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 13:10:24 by clumertz          #+#    #+#             */
-/*   Updated: 2025/08/15 20:17:14 by clumertz         ###   ########.fr       */
+/*   Updated: 2025/08/16 14:14:46 by clumertz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,9 @@ void	init(t_process *p_1, t_process *p_2, char **argv, char **envp)
 	p_2->cmd = ft_split(argv[3], ' ');
 	p_1->path = search_cmd(p_1->cmd, path);
 	p_2->path = search_cmd(p_2->cmd, path);
-	ft_free_mem(path, 18);
+	ft_free_mem(path, 10);
 	p_1->fd_file = open(argv[1], O_RDONLY);
 	p_2->fd_file = open(argv[4], O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	ft_free_mem(argv, 5);
 	p_1->envp = envp;
 	p_2->envp = envp;
 	//falta verificacao do open aqui
@@ -50,6 +49,7 @@ char	**create_path(char **envp)
 		path[i] = ft_strjoin(path[i], "/");
 		i++;
 	}
+	printf("%d\n", i);
 	return (path);
 }
 

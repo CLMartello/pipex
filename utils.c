@@ -6,7 +6,7 @@
 /*   By: clumertz <clumertz@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 11:41:24 by clumertz          #+#    #+#             */
-/*   Updated: 2025/08/15 17:51:22 by clumertz         ###   ########.fr       */
+/*   Updated: 2025/08/16 14:06:16 by clumertz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ void	error_msg(void)
 	exit(EXIT_FAILURE);
 }
 
-void	free_all(t_process *p_1, t_process *p_2)
+void	free_all(t_process *p_1)
 {
 	ft_free_mem(p_1->cmd, 1);
-	ft_free_mem(p_2->cmd, 1);
+//	ft_free_mem(p_2->cmd, 1);
 	free(p_1->path);
-	free(p_2->path);
+//	free(p_2->path);
 	free(p_1);
-	free(p_2);
+//	free(p_2);
 }
