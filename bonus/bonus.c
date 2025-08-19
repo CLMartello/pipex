@@ -1,0 +1,33 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bonus.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: clumertz <clumertz@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/19 20:41:52 by clumertz          #+#    #+#             */
+/*   Updated: 2025/08/19 22:23:29 by clumertz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "bonus_h_pipex.h"
+
+int	main(int argc, char **argv, char **envp)
+{
+	t_process	*p;
+
+	p = malloc(sizeof(t_process));
+	if (!p)
+		free_exit(NULL, 6, NULL);
+	if (argc < 5)
+		free_exit(p, 1, NULL);
+	init_p(p, argc, argv, envp);
+	dup2(p->fd_0, STDIN_FILENO);
+	close(p->fd_0);
+	while (p->count_cmd < (argc - 2))
+		p->pid[p->count_pid++] = child(p, argv[p->count_cmd++]);
+	p->pid[p->count_pid++] = fork();
+	if (p->pid[p->count_pid - 1] == 0)
+		last_child(p, argv[argc -1]);
+	wait_process(p);
+}

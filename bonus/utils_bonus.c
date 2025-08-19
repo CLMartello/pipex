@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: clumertz <clumertz@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 11:41:24 by clumertz          #+#    #+#             */
-/*   Updated: 2025/08/17 14:15:18 by clumertz         ###   ########.fr       */
+/*   Updated: 2025/08/19 22:20:58 by clumertz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "h_pipex.h"
+#include "bonus_h_pipex.h"
 
 static void	ft_putstr_fd(char *s, int fd)
 {
@@ -23,32 +23,52 @@ static void	ft_putstr_fd(char *s, int fd)
 		i++;
 	}
 }
-
-void	free_all(t_process *p_1)
+/*
+static void	free_db_str(char **db_str)
 {
 	int	i;
 
 	i = 0;
-	if (p_1->fd_file)
-		close(p_1->fd_file);
-	if (p_1->cmd)
+	while (fd_str[i] != NULL)
+		i++;
+	ft_free_mem(db_str, i -1);
+}*/
+
+void	free_all(t_process *p)
+{
+	int	i;
+
+	i = 0;
+	if (p->fd_0)
+		close(p->fd_0);
+	if (p->fd_1)
+		close(p->fd_1);
+	if (p->cmd)
+//		free_db_str(p->cmd);
 	{
-		while (p_1->cmd[i] != NULL)
+		while (p->cmd[i] != NULL)
 			i++;
-		if (p_1->cmd)
-			ft_free_mem(p_1->cmd, i - 1);
+		ft_free_mem(p->cmd, i - 1);
 	}
-	if (p_1->path)
-		free(p_1->path);
-	if (p_1)
-		free(p_1);
+	if (p->path)
+		free(p->path);
+	i = 0;
+	if (p->all_path)
+//		free_db_str(p->all_path);
+	{
+		while (p->all_path[i] != NULL)
+			i++;
+		ft_free_mem(p->all_path, i - 1);
+	}
+	if (p)
+		free(p);
 }
 
 void	close_fd(int *fd)
 {
 	close(fd[0]);
 	close(fd[1]);
-	exit(EXIT_FAILURE);
+//	exit(EXIT_FAILURE);
 }
 
 static void	print_error(char *msg, char *name)
@@ -59,7 +79,7 @@ static void	print_error(char *msg, char *name)
 	ft_putstr_fd("\n", 2);
 }
 
-void	free_exit(t_process *p_1, t_process *p_2, int error, char *name)
+void	free_exit(t_process *p, int error, char *name)
 {
 	if (error == 1)
 		print_error("Invalid number of arguments.", name);
@@ -70,13 +90,13 @@ void	free_exit(t_process *p_1, t_process *p_2, int error, char *name)
 	else if (error == 4)
 		print_error("zsh: no such file or directory: ", name);
 	else if (error == 5)
-	{
-		close(p_1->fd_file);
+//	{
+//		close(p->fd_0);
 		print_error("zsh: no such file or directory: ", name);
-	}
-	if (p_1)
-		free_all(p_1);
-	if (p_2)
-		free_all(p_2);
+//	}
+	else if (error == 6)
+		print_error("Failure on malloc allocation. ", name);
+	if (p)
+		free_all(p);
 	exit(EXIT_FAILURE);
 }

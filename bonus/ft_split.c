@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "h_pipex.h"
+#include "bonus_h_pipex.h"
 
 static int	ft_count_words(char const *s, char c)
 {

@@ -1,52 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   parse_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: clumertz <clumertz@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 13:10:24 by clumertz          #+#    #+#             */
-/*   Updated: 2025/08/17 17:59:37 by clumertz         ###   ########.fr       */
+/*   Updated: 2025/08/19 22:24:10 by clumertz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "h_pipex.h"
+#include "bonus_h_pipex.h"
 
-void	init_p(t_process *p_1, t_process *p_2)
+void	init_p(t_process *p, int argc, char **argv, char **envp)
 {
-	p_1->cmd = NULL;
-	p_1->path = NULL;
-	p_1->envp = NULL;
-	p_2->cmd = NULL;
-	p_2->path = NULL;
-	p_2->envp = NULL;
-}
-
-void	get_args(t_process *p_1, t_process *p_2, char **argv, char **envp)
-{
-	char	**path;
-
-	init_p(p_1, p_2);
-	p_1->fd_file = open(argv[1], O_RDONLY);
-	if (p_1->fd_file == -1)
-		free_exit(p_1, p_2, 4, argv[1]);
-	if (argv[2][0] == '\0' || argv[3][0] == '\0')
-		free_exit(p_1, p_2, 2, NULL);
-	path = create_path(envp);
-	p_1->cmd = ft_split(argv[2], ' ');
-	p_2->cmd = ft_split(argv[3], ' ');
-	p_1->path = search_cmd(p_1->cmd, path);
-	p_2->path = search_cmd(p_2->cmd, path);
-	ft_free_mem(path, 10);
-	if (!p_1->path)
-		free_exit(p_1, p_2, 3, p_1->cmd[0]);
-	if (!p_2->path)
-		free_exit(p_1, p_2, 3, p_2->cmd[0]);
-	p_2->fd_file = open(argv[4], O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (p_2->fd_file == -1)
-		free_exit(p_1, p_2, 5, argv[4]);
-	p_1->envp = envp;
-	p_2->envp = envp;
+	p->count_pid = 0;
+	p->cmd = NULL;
+	p->path = NULL;
+	p->argc = argc;
+	p->argv = argv;
+	p->envp = envp;
+//	if (here_doc)
+//		p->first_cmd = 3;
+//	else
+	p->fd_0 = open(argv[1], O_RDONLY);
+	if (p->fd_0 == -1)
+		free_exit(p, 4, argv[1]);
+	p->count_cmd = 2;
+	p->pid = malloc(sizeof(pid_t) * (argc - p->count_cmd));
+	if (!p->pid)
+		free_exit(p, 6, NULL);
+	p->all_path = create_path(envp);
 }
 
 char	**create_path(char **envp)
