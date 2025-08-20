@@ -6,7 +6,7 @@
 /*   By: clumertz <clumertz@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 13:31:51 by clumertz          #+#    #+#             */
-/*   Updated: 2025/08/19 22:24:59 by clumertz         ###   ########.fr       */
+/*   Updated: 2025/08/20 13:10:41 by clumertz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,17 +51,18 @@ void	execute(t_process *p, int *fd, char *command)
 		free_exit(p, 3, p->cmd[0]);
 	}
 	execve(p->path, p->cmd, p->envp);
-	ft_free_mem(p->cmd, 2);
+//essa parte funciona como se vem depois do execve??
+	free_db_str(p->cmd);
 	free(p->path);
 }
 
 void	last_child(t_process *p, char *outfile)
 {
-	p->fd_1 = open(outfile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (p->fd_1 == -1)
+	p->fd_out = open(outfile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (p->fd_out == -1)
 		free_exit(p, 5, outfile);
-	dup2(p->fd_1, STDOUT_FILENO);
-	close(p->fd_1);
+	dup2(p->fd_out, STDOUT_FILENO);
+	close(p->fd_out);
 	execute(p, NULL, p->argv[p->argc - 2]);
 }
 
@@ -76,5 +77,5 @@ void	wait_process(t_process *p)
 		i++;
 	}
 	free(p->pid);
-	free(p);
+	free_all(p);
 }

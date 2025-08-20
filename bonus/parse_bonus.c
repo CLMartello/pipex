@@ -6,7 +6,7 @@
 /*   By: clumertz <clumertz@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 13:10:24 by clumertz          #+#    #+#             */
-/*   Updated: 2025/08/19 22:24:10 by clumertz         ###   ########.fr       */
+/*   Updated: 2025/08/20 14:15:04 by clumertz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,47 @@ void	init_p(t_process *p, int argc, char **argv, char **envp)
 	p->argc = argc;
 	p->argv = argv;
 	p->envp = envp;
-//	if (here_doc)
-//		p->first_cmd = 3;
-//	else
-	p->fd_0 = open(argv[1], O_RDONLY);
-	if (p->fd_0 == -1)
-		free_exit(p, 4, argv[1]);
-	p->count_cmd = 2;
+	if (ft_strncmp(argv[1], "here_doc", ft_strlen(argv[1])) == 0)
+	{
+		p->fd_in = fd_heredoc(p, argv);
+		p->count_cmd = 3;
+	}
+	else
+	{
+		p->fd_in = open(argv[1], O_RDONLY);
+		if (p->fd_in == -1)
+			free_exit(p, 4, argv[1]);
+		p->count_cmd = 2;
+	}
 	p->pid = malloc(sizeof(pid_t) * (argc - p->count_cmd));
 	if (!p->pid)
 		free_exit(p, 6, NULL);
 	p->all_path = create_path(envp);
+}
+
+int	fd_heredoc(t_process *p, char **argv)
+{
+	int	fd;
+	char	*line;
+	char	*eof;
+
+	fd = open("tmp_heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd == -1)
+		free_exit(p, 4, argv[1]);
+	eof = ft_strdup((char *)argv[2]);
+	eof = ft_strjoin(eof, "\n");
+	while (1)
+	{
+		ft_putstr_fd("here_doc>", 1);
+		line = get_next_line(STDIN_FILENO);
+		if ((ft_strncmp(line, eof, ft_strlen(line))) == 0 || !line)
+			break ;
+		ft_putstr_fd(line, fd);
+		free(line);
+	}
+	free(eof);
+	free(line);
+	return (fd);
 }
 
 char	**create_path(char **envp)

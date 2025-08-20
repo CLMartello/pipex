@@ -18,7 +18,7 @@ CFLAGS = -Wall -Werror -Wextra -g
 
 C_FILES = pipex.c parse.c ft_split.c str_utils.c process.c utils.c
 
-BON_C_FILES = bonus.c parse_bonus.c process_bonus.c utils_bonus.c str_utils.c  ft_split.c
+BON_C_FILES = bonus.c parse_bonus.c process_bonus.c utils_bonus.c str_utils.c  ft_split.c get_next_line.c
 
 O_DIR = objs
 

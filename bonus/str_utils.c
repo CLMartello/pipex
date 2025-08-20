@@ -6,23 +6,11 @@
 /*   By: clumertz <clumertz@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 19:34:26 by clumertz          #+#    #+#             */
-/*   Updated: 2025/08/17 17:58:58 by clumertz         ###   ########.fr       */
+/*   Updated: 2025/08/20 13:59:07 by clumertz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bonus_h_pipex.h"
-
-size_t	ft_strlen(const char *s)
-{
-	size_t	i;
-
-	i = 0;
-	while (s[i] != '\0')
-	{
-		i++;
-	}
-	return (i);
-}
 
 char	*ft_substr(const char *s, unsigned int start, size_t len)
 {
@@ -74,7 +62,7 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	result = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (!result)
-		return (NULL);
+		free_exit(NULL, 6, NULL);
 	i = 0;
 	while (s1[i] != '\0')
 	{
@@ -104,4 +92,16 @@ int	ft_strncmp(char *s1, char *s2, size_t n)
 		i++;
 	}
 	return (0);
+}
+
+void	ft_putstr_fd(char *s, int fd)
+{
+	int	i;
+
+	i = 0;
+	while (s[i] != '\0')
+	{
+		write(fd, &s[i], 1);
+		i++;
+	}
 }
