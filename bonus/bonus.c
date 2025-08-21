@@ -6,7 +6,7 @@
 /*   By: clumertz <clumertz@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 20:41:52 by clumertz          #+#    #+#             */
-/*   Updated: 2025/08/20 12:43:47 by clumertz         ###   ########.fr       */
+/*   Updated: 2025/08/21 14:45:46 by clumertz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_process	*p;
 
+	if (argc < 5)
+		free_exit(NULL, 1, NULL);
 	p = malloc(sizeof(t_process));
 	if (!p)
 		free_exit(NULL, 6, NULL);
-	if (argc < 5)
-		free_exit(p, 1, NULL);
 	init_p(p, argc, argv, envp);
 	dup2(p->fd_in, STDIN_FILENO);
 	close(p->fd_in);

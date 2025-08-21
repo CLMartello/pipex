@@ -6,7 +6,7 @@
 /*   By: clumertz <clumertz@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 13:10:24 by clumertz          #+#    #+#             */
-/*   Updated: 2025/08/20 14:15:04 by clumertz         ###   ########.fr       */
+/*   Updated: 2025/08/21 14:46:30 by clumertz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void	init_p(t_process *p, int argc, char **argv, char **envp)
 	p->envp = envp;
 	if (ft_strncmp(argv[1], "here_doc", ft_strlen(argv[1])) == 0)
 	{
-		p->fd_in = fd_heredoc(p, argv);
+		fd_heredoc(p, argv);
+		p->fd_in = open("tmp_heredoc", O_RDONLY);
 		p->count_cmd = 3;
 	}
 	else
@@ -32,15 +33,15 @@ void	init_p(t_process *p, int argc, char **argv, char **envp)
 			free_exit(p, 4, argv[1]);
 		p->count_cmd = 2;
 	}
-	p->pid = malloc(sizeof(pid_t) * (argc - p->count_cmd));
+	p->pid = malloc(sizeof(pid_t) * (argc - p->count_cmd) + 1);
 	if (!p->pid)
 		free_exit(p, 6, NULL);
 	p->all_path = create_path(envp);
 }
 
-int	fd_heredoc(t_process *p, char **argv)
+void	fd_heredoc(t_process *p, char **argv)
 {
-	int	fd;
+	int		fd;
 	char	*line;
 	char	*eof;
 
@@ -60,7 +61,7 @@ int	fd_heredoc(t_process *p, char **argv)
 	}
 	free(eof);
 	free(line);
-	return (fd);
+	close(fd);
 }
 
 char	**create_path(char **envp)

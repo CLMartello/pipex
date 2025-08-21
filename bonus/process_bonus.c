@@ -6,7 +6,7 @@
 /*   By: clumertz <clumertz@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 13:31:51 by clumertz          #+#    #+#             */
-/*   Updated: 2025/08/20 13:10:41 by clumertz         ###   ########.fr       */
+/*   Updated: 2025/08/21 14:46:42 by clumertz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,11 @@ void	execute(t_process *p, int *fd, char *command)
 	p->path = search_cmd(p->cmd, p->all_path);
 	if (!p->path)
 	{
-		close_fd(fd);
+		if (fd)
+			close_fd(fd);
 		free_exit(p, 3, p->cmd[0]);
 	}
 	execve(p->path, p->cmd, p->envp);
-//essa parte funciona como se vem depois do execve??
 	free_db_str(p->cmd);
 	free(p->path);
 }
@@ -78,4 +78,5 @@ void	wait_process(t_process *p)
 	}
 	free(p->pid);
 	free_all(p);
+	unlink("tmp_heredoc");
 }

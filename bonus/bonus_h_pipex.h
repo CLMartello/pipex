@@ -6,7 +6,7 @@
 /*   By: clumertz <clumertz@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 11:15:10 by clumertz          #+#    #+#             */
-/*   Updated: 2025/08/20 14:10:17 by clumertz         ###   ########.fr       */
+/*   Updated: 2025/08/21 11:59:06 by clumertz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	*get_next_line(int fd);
 void	init_p(t_process *p, int argc, char **argv, char **envp);
 char	**create_path(char **path);
 char	*search_cmd(char **cmd, char **path);
-int	fd_heredoc(t_process *p, char **argv);
+void	fd_heredoc(t_process *p, char **argv);
 
 //Process functions
 pid_t	child(t_process *p, char *command);

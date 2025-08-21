@@ -6,7 +6,7 @@
 /*   By: clumertz <clumertz@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 11:41:24 by clumertz          #+#    #+#             */
-/*   Updated: 2025/08/17 14:15:18 by clumertz         ###   ########.fr       */
+/*   Updated: 2025/08/21 14:54:28 by clumertz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,10 @@ void	free_exit(t_process *p_1, t_process *p_2, int error, char *name)
 	else if (error == 2)
 		print_error("zsh: permission denied:", name);
 	else if (error == 3)
+	{
+		p_2->fd_file = 0;
 		print_error("zsh: command not found: ", name);
+	}
 	else if (error == 4)
 		print_error("zsh: no such file or directory: ", name);
 	else if (error == 5)
