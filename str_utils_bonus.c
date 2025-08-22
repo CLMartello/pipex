@@ -6,11 +6,11 @@
 /*   By: clumertz <clumertz@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 19:34:26 by clumertz          #+#    #+#             */
-/*   Updated: 2025/08/20 13:59:07 by clumertz         ###   ########.fr       */
+/*   Updated: 2025/08/22 13:09:06 by clumertz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "bonus_h_pipex.h"
+#include "pipex_bonus.h"
 
 char	*ft_substr(const char *s, unsigned int start, size_t len)
 {

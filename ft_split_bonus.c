@@ -6,11 +6,11 @@
 /*   By: clumertz <clumertz@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 09:15:45 by clumertz          #+#    #+#             */
-/*   Updated: 2025/08/20 12:05:52 by clumertz         ###   ########.fr       */
+/*   Updated: 2025/08/22 13:09:06 by clumertz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "bonus_h_pipex.h"
+#include "pipex_bonus.h"
 
 size_t	ft_strlen(const char *s)
 {

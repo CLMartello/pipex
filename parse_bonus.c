@@ -1,32 +1,67 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   args.c                                             :+:      :+:    :+:   */
+/*   parse_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: clumertz <clumertz@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 13:10:24 by clumertz          #+#    #+#             */
-/*   Updated: 2025/08/16 14:14:46 by clumertz         ###   ########.fr       */
+/*   Updated: 2025/08/21 14:46:30 by clumertz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "h_pipex.h"
+#include "pipex_bonus.h"
 
-void	init(t_process *p_1, t_process *p_2, char **argv, char **envp)
+void	init_p(t_process *p, int argc, char **argv, char **envp)
 {
-	char	**path;
+	p->count_pid = 0;
+	p->cmd = NULL;
+	p->path = NULL;
+	p->argc = argc;
+	p->argv = argv;
+	p->envp = envp;
+	if (ft_strncmp(argv[1], "here_doc", ft_strlen(argv[1])) == 0)
+	{
+		fd_heredoc(p, argv);
+		p->fd_in = open("tmp_heredoc", O_RDONLY);
+		p->count_cmd = 3;
+	}
+	else
+	{
+		p->fd_in = open(argv[1], O_RDONLY);
+		if (p->fd_in == -1)
+			free_exit(p, 4, argv[1]);
+		p->count_cmd = 2;
+	}
+	p->pid = malloc(sizeof(pid_t) * (argc - p->count_cmd) + 1);
+	if (!p->pid)
+		free_exit(p, 6, NULL);
+	p->all_path = create_path(envp);
+}
 
-	path = create_path(envp);
-	p_1->cmd = ft_split(argv[2], ' ');
-	p_2->cmd = ft_split(argv[3], ' ');
-	p_1->path = search_cmd(p_1->cmd, path);
-	p_2->path = search_cmd(p_2->cmd, path);
-	ft_free_mem(path, 10);
-	p_1->fd_file = open(argv[1], O_RDONLY);
-	p_2->fd_file = open(argv[4], O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	p_1->envp = envp;
-	p_2->envp = envp;
-	//falta verificacao do open aqui
+void	fd_heredoc(t_process *p, char **argv)
+{
+	int		fd;
+	char	*line;
+	char	*eof;
+
+	fd = open("tmp_heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd == -1)
+		free_exit(p, 4, argv[1]);
+	eof = ft_strdup((char *)argv[2]);
+	eof = ft_strjoin(eof, "\n");
+	while (1)
+	{
+		ft_putstr_fd("here_doc>", 1);
+		line = get_next_line(STDIN_FILENO);
+		if ((ft_strncmp(line, eof, ft_strlen(line))) == 0 || !line)
+			break ;
+		ft_putstr_fd(line, fd);
+		free(line);
+	}
+	free(eof);
+	free(line);
+	close(fd);
 }
 
 char	**create_path(char **envp)
@@ -49,15 +84,14 @@ char	**create_path(char **envp)
 		path[i] = ft_strjoin(path[i], "/");
 		i++;
 	}
-	printf("%d\n", i);
 	return (path);
 }
 
 char	*search_cmd(char **cmd, char **path)
 {
-	int	i;
+	int		i;
 	char	*real_path;
-	
+
 	i = 0;
 	while (path[i] != 0)
 	{

@@ -6,11 +6,11 @@
 /*   By: clumertz <clumertz@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 13:31:51 by clumertz          #+#    #+#             */
-/*   Updated: 2025/08/21 14:46:42 by clumertz         ###   ########.fr       */
+/*   Updated: 2025/08/22 14:43:30 by clumertz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "bonus_h_pipex.h"
+#include "pipex_bonus.h"
 
 pid_t	child(t_process *p, char *command)
 {
@@ -58,7 +58,10 @@ void	execute(t_process *p, int *fd, char *command)
 
 void	last_child(t_process *p, char *outfile)
 {
-	p->fd_out = open(outfile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if ((ft_strncmp(p->argv[1], "here_doc", ft_strlen(p->argv[1]))) == 0)
+		p->fd_out = open(outfile, O_CREAT | O_WRONLY | O_APPEND, 0644);
+	else
+		p->fd_out = open(outfile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (p->fd_out == -1)
 		free_exit(p, 5, outfile);
 	dup2(p->fd_out, STDOUT_FILENO);
@@ -66,17 +69,27 @@ void	last_child(t_process *p, char *outfile)
 	execute(p, NULL, p->argv[p->argc - 2]);
 }
 
-void	wait_process(t_process *p)
+int	wait_process(t_process *p)
 {
 	int	i;
+	int	status;
+	int	exit_code;
 
 	i = 0;
 	while (i < p->count_pid)
 	{
-		waitpid(p->pid[i], NULL, 0);
+		waitpid(p->pid[i], &status, 0);
+		if (i == (p->count_pid - 1))
+		{
+			if (WIFEXITED(status))
+				exit_code = WEXITSTATUS(status);
+			else
+				exit_code = 1;
+		}
 		i++;
 	}
 	free(p->pid);
 	free_all(p);
 	unlink("tmp_heredoc");
+	return (exit_code);
 }

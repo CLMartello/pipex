@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bonus_h_pipex.h                                    :+:      :+:    :+:   */
+/*   pipex_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: clumertz <clumertz@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 11:15:10 by clumertz          #+#    #+#             */
-/*   Updated: 2025/08/21 11:59:06 by clumertz         ###   ########.fr       */
+/*   Updated: 2025/08/22 14:21:23 by clumertz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BONUS_H_PIPEX_H
+#ifndef PIPEX_BONUS_H
 
-# define BONUS_H_PIPEX_H
+# define PIPEX_BONUS_H
 
 # include <stdlib.h>
 # include <stdio.h>
@@ -63,7 +63,7 @@ void	fd_heredoc(t_process *p, char **argv);
 pid_t	child(t_process *p, char *command);
 void	execute(t_process *p, int *fd, char *command);
 void	last_child(t_process *p, char *outfile);
-void	wait_process(t_process *p);
+int		wait_process(t_process *p);
 
 //Utils functions
 void	free_all(t_process *p_1);

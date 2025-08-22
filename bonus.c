@@ -6,11 +6,11 @@
 /*   By: clumertz <clumertz@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 20:41:52 by clumertz          #+#    #+#             */
-/*   Updated: 2025/08/21 14:45:46 by clumertz         ###   ########.fr       */
+/*   Updated: 2025/08/22 13:09:06 by clumertz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "bonus_h_pipex.h"
+#include "pipex_bonus.h"
 
 int	main(int argc, char **argv, char **envp)
 {

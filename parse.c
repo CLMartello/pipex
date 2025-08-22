@@ -6,11 +6,11 @@
 /*   By: clumertz <clumertz@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 13:10:24 by clumertz          #+#    #+#             */
-/*   Updated: 2025/08/17 17:59:37 by clumertz         ###   ########.fr       */
+/*   Updated: 2025/08/22 13:09:06 by clumertz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "h_pipex.h"
+#include "pipex.h"
 
 void	init_p(t_process *p_1, t_process *p_2)
 {
