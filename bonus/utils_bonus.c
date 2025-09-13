@@ -6,7 +6,7 @@
 /*   By: clumertz <clumertz@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 11:41:24 by clumertz          #+#    #+#             */
-/*   Updated: 2025/09/01 19:14:00 by clumertz         ###   ########.fr       */
+/*   Updated: 2025/09/13 16:25:30 by clumertz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	free_db_str(char **db_str)
 
 void	free_all(t_process *p)
 {
-	if (p->fd_in)
+	if (p->fd_in && p->fd_in != -1)
 		close(p->fd_in);
 	if (p->cmd)
 		free_db_str(p->cmd);

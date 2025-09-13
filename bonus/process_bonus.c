@@ -6,7 +6,7 @@
 /*   By: clumertz <clumertz@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 13:31:51 by clumertz          #+#    #+#             */
-/*   Updated: 2025/08/22 14:43:30 by clumertz         ###   ########.fr       */
+/*   Updated: 2025/09/13 16:25:38 by clumertz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	execute(t_process *p, int *fd, char *command)
 {
 	if (command[0] == '\0')
 	{
-		close_fd(fd);
+		//close_fd(fd);
 		free_exit(p, 2, NULL);
 	}
 	p->cmd = ft_split(command, ' ');

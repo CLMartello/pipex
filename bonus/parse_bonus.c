@@ -6,7 +6,7 @@
 /*   By: clumertz <clumertz@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 13:10:24 by clumertz          #+#    #+#             */
-/*   Updated: 2025/08/21 14:46:30 by clumertz         ###   ########.fr       */
+/*   Updated: 2025/09/13 16:25:43 by clumertz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	init_p(t_process *p, int argc, char **argv, char **envp)
 	p->argc = argc;
 	p->argv = argv;
 	p->envp = envp;
+	p->all_path = create_path(envp);
 	if (ft_strncmp(argv[1], "here_doc", ft_strlen(argv[1])) == 0)
 	{
 		fd_heredoc(p, argv);
@@ -36,7 +37,6 @@ void	init_p(t_process *p, int argc, char **argv, char **envp)
 	p->pid = malloc(sizeof(pid_t) * (argc - p->count_cmd) + 1);
 	if (!p->pid)
 		free_exit(p, 6, NULL);
-	p->all_path = create_path(envp);
 }
 
 void	fd_heredoc(t_process *p, char **argv)
