@@ -1,72 +1,55 @@
-# Configuration --------------------------------------------------- #
-
-NAME = pipex
-
-HEADER = pipex.h
-
-BONUS = pipex_bonus
-
-HEADER_BONUS = pipex_bonus.h
-
-# Flags ----------------------------------------------------------- #
+# Flags #
 
 CC = cc
 
+NAME = pipex
+
+NAME_BONUS = pipex_bonus
+
+HEADER = src/pipex.h
+
+HEADER_BONUS = bonus/pipex_bonus.h
+
 CFLAGS = -Wall -Werror -Wextra -g
 
-# Files ----------------------------------------------------------- #
+# Files #
 
-C_FILES = pipex.c parse.c ft_split.c str_utils.c process.c utils.c
+SRC = src/pipex.c src/parse.c src/ft_split.c src/str_utils.c src/process.c src/utils.c
 
-BON_C_FILES = bonus.c parse_bonus.c process_bonus.c utils_bonus.c str_utils_bonus.c  ft_split_bonus.c get_next_line.c
+SRC_BONUS = bonus/bonus.c bonus/parse_bonus.c bonus/process_bonus.c bonus/utils_bonus.c bonus/str_utils_bonus.c  bonus/ft_split_bonus.c bonus/get_next_line.c
 
-O_DIR = objs
+OBJS = $(SRC:.c=.o)
 
-BON_O_DIR = bonus_objs
+OBJS_BONUS = $(SRC_BONUS:.c=.o)
 
-O_FILES = $(patsubst %.c, $(O_DIR)/%.o, $(C_FILES))
+%.o:%.c
+	@$(CC) $(CFLAGS) -c $< -o $@
 
-BON_O_FILES = $(patsubst %.c, $(BON_O_DIR)/%.o, $(BON_C_FILES))
-
-# Pattern Rule ---------------------------------------------------- #
+# Configuration #
 
 all: $(NAME)
 
-$(NAME): $(O_FILES)
-	@$(CC) $(CFLAGS) $(O_FILES) -o $(NAME)
+bonus: $(NAME_BONUS)
+
+$(NAME): $(OBJS)
+	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 	@echo "Compiled Program"
 
-$(O_DIR)/%.o: %.c $(HEADER) | $(O_DIR)
-	@$(CC) $(CFLAGS) -c $< -o $@
-
-bonus: $(BON_O_FILES) 
-	@$(CC) $(CFLAGS) $(BON_O_FILES) -o $(BONUS)
+$(NAME_BONUS): $(OBJS_BONUS)
+	@$(CC) $(CFLAGS) $(OBJS_BONUS) -o $(NAME_BONUS)
 	@echo "Compiled Bonus"
 
-$(BON_O_DIR)/%.o: %.c $(BONUS_HEADER) | $(BON_O_DIR)
-	@$(CC) $(CFLAGS) -c $< -o $@
-
-# Directory Rule -------------------------------------------------- #
-
-$(O_DIR):
-	@mkdir -p $@
-
-$(BON_O_DIR):
-	@mkdir -p $@
-
-# Phonies --------------------------------------------------------- #
-
-.PHONY: all clean fclean re norm
+# Phonies #
 
 norm:
-	@norminette -R CheckForbiddenSourceHeader $(C_FILES) $(HEADER) $(BON_C_FILES) $(HEADER_BONUS)
+	@norminette -R CheckForbiddenSourceHeader $(SRC) $(HEADER) $(SRC_BONUS) $(HEADER_BONUS)
 
 clean:
-	@rm -rf $(O_FILES) $(O_DIR) $(BON_O_FILES) $(BON_O_DIR)
+	@rm -f $(OBJS) $(OBJS_BONUS)
 	@echo "Cleaned object files"
 
 fclean: clean
-	@rm -rf $(NAME) $(BONUS)
+	@rm -f $(NAME) $(NAME_BONUS)
 	@echo "Removed Program"
 
 re: fclean all

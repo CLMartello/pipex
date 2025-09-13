@@ -6,7 +6,7 @@
 /*   By: clumertz <clumertz@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 20:41:52 by clumertz          #+#    #+#             */
-/*   Updated: 2025/08/22 13:09:06 by clumertz         ###   ########.fr       */
+/*   Updated: 2025/09/13 15:58:13 by clumertz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ int	main(int argc, char **argv, char **envp)
 		p->count_pid++;
 		p->count_cmd++;
 	}
-	p->pid[p->count_pid++] = fork();
-	if (p->pid[p->count_pid - 1] == 0)
+	p->pid[p->count_pid] = fork();
+	if (p->pid[p->count_pid] == 0)
 		last_child(p, argv[argc -1]);
 	wait_process(p);
 	return (0);
