@@ -6,7 +6,7 @@
 /*   By: clumertz <clumertz@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 13:10:24 by clumertz          #+#    #+#             */
-/*   Updated: 2025/09/13 16:25:43 by clumertz         ###   ########.fr       */
+/*   Updated: 2025/09/28 17:18:48 by clumertz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void	init_p(t_process *p, int argc, char **argv, char **envp)
 	p->pid = malloc(sizeof(pid_t) * (argc - p->count_cmd) + 1);
 	if (!p->pid)
 		free_exit(p, 6, NULL);
+	if (!p->all_path)
+		free_exit(p, 3, NULL);
 }
 
 void	fd_heredoc(t_process *p, char **argv)
@@ -69,8 +71,9 @@ char	**create_path(char **envp)
 	int		i;
 	char	**path;
 
+	path = NULL;
 	i = 0;
-	while (envp[i] != NULL)
+	while (envp && envp[i] != NULL)
 	{
 		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
 		{
@@ -79,7 +82,7 @@ char	**create_path(char **envp)
 		i++;
 	}
 	i = 0;
-	while (path[i] != NULL)
+	while (path && path[i] != NULL)
 	{
 		path[i] = ft_strjoin(path[i], "/");
 		i++;
@@ -93,6 +96,8 @@ char	*search_cmd(char **cmd, char **path)
 	char	*real_path;
 
 	i = 0;
+	if (!cmd[0])
+		return (NULL);
 	while (path[i] != 0)
 	{
 		real_path = ft_strdup((const char *)path[i]);
